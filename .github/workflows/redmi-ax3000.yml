@@ -20,7 +20,7 @@ on:
         default: 'true'
 
 env:
-  REPO_URL: https://github.com/hzyitc/openwrt-redmi-ax3000
+  REPO_URL: https://github.com/hzyitc/openwrt-redmi-ax3000/tree/ipq50xx-mainline-kernel-5.4-openwrt-21.02-qsdk-wifi-rebase
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: AX3000.config
