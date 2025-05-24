@@ -24,5 +24,5 @@ sed -i '$a src-git helloworld https://github.com/fw876/helloworld.git'  feeds.co
 # sed -i '$a src-git kenzo https://github.com/kenzok8/openwrt-packages' feeds.conf.default
 # passwall依赖
 # sed -i '$a src-git small https://github.com/kenzok8/small' feeds.conf.default
-sed -i 's/CONFIG_PACKAGE_xray-core=y/# CONFIG_PACKAGE_xray-core is not set/' .config
+#sed -i 's/CONFIG_PACKAGE_xray-core=y/# CONFIG_PACKAGE_xray-core is not set/' .config
 ### 修改主题文件
