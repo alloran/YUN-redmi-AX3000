@@ -63,9 +63,10 @@ jobs:
 
     - name: Load custom feeds
       run: |
-            echo 'src-git helloworld https://github.com/fw876/helloworld.git' >> feeds.conf.default
-            echo 'src-git argon https://github.com/jerrykuku/luci-theme-argon.git' >> feeds.conf.default
-            echo 'src-git ua2f https://github.com/Zxilly/UA2F.git' >> feeds.conf.default
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        chmod +x $DIY_P1_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P1_SH
 
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
