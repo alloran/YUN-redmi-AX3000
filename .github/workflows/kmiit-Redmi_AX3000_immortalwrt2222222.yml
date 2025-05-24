@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: 作者kmiit-Redmi_AX3000_版本immortalwrt
+name: 无p1脚本无源码
 
 on:
   repository_dispatch:
@@ -63,10 +63,10 @@ jobs:
 
     - name: Load custom feeds
       run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-        chmod +x $DIY_P1_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
+            #echo 'src-git helloworld https://github.com/fw876/helloworld.git' >> feeds.conf.default
+            #echo 'src-git argon https://github.com/jerrykuku/luci-theme-argon.git' >> feeds.conf.default
+            #echo 'src-git ua2f https://github.com/Zxilly/UA2F.git' >> feeds.conf.default
+            #cat feeds.conf.default
 
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
