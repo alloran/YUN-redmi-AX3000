@@ -20,7 +20,7 @@
 # 添加 helloworld (包含ssr-plus)
 sed -i '$a src-git helloworld https://github.com/fw876/helloworld.git'  feeds.conf.default  
 sed -i '$a src-git argon https://github.com/jerrykuku/luci-theme-argon.git'  feeds.conf.default
-sed -i '$a src-git ua2f https://github.com/Zxilly/UA2F.git'  feeds.conf.default
+#sed -i '$a src-git ua2f https://github.com/Zxilly/UA2F.git'  feeds.conf.default
 # sed -i '$a src-git kenzo https://github.com/kenzok8/openwrt-packages' feeds.conf.default
 # passwall依赖
 # sed -i '$a src-git small https://github.com/kenzok8/small' feeds.conf.default
