@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: 无p1脚本无源码
+name: 源码SSRPLUS+
 
 on:
   repository_dispatch:
@@ -63,10 +63,10 @@ jobs:
 
     - name: Load custom feeds
       run: |
-            #echo 'src-git helloworld https://github.com/fw876/helloworld.git' >> feeds.conf.default
+            echo 'src-git helloworld https://github.com/fw876/helloworld.git' >> feeds.conf.default
             #echo 'src-git argon https://github.com/jerrykuku/luci-theme-argon.git' >> feeds.conf.default
             #echo 'src-git ua2f https://github.com/Zxilly/UA2F.git' >> feeds.conf.default
-            #cat feeds.conf.default
+            cat feeds.conf.default
 
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
