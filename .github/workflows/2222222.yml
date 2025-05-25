@@ -23,7 +23,7 @@ env:
   REPO_URL: https://github.com/kmiit/Redmi_AX3000_immortalwrt
   REPO_BRANCH: redmi_ax3000-24.10
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: AX3000.config
+  CONFIG_FILE: ad-ax3000.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
@@ -53,7 +53,27 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
-
+    - name: "Optimize Disk Space"
+      uses: "hugoalh/disk-space-optimizer-ghaction@v0.8.1"
+      with:
+            operate_sudo: "True"
+            general_include: ".+"
+            general_exclude: |-
+              ^GCC$
+              ^G\+\+$
+              Clang
+              LLVM
+            docker_include: ".+"
+            docker_prune: "True"
+            docker_clean: "True"
+            apt_prune: "True"
+            apt_clean: "True"
+            homebrew_prune: "True"
+            homebrew_clean: "True"
+            npm_prune: "True"
+            npm_clean: "True"
+            os_swap: "True"
+        
     - name: Clone source code
       working-directory: /workdir
       run: |
