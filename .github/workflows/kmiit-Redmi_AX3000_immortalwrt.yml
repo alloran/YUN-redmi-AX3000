@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: 作者kmiit-Redmi_AX3000_版本immortalwrt
+name:  借用小米4A千兆版脚本云编译无插件配置wu-ax3000.config
 
 on:
   repository_dispatch:
