@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: 编译小米AX3000
+name: 丢弃无插件的，用的是官方源支持太少
 
 on:
   repository_dispatch:
