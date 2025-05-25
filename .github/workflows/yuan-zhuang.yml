@@ -10,7 +10,8 @@
 # See /LICENSE for more information.
 #
 
-name: OpenWrt Builder
+name: 加入磁盘优化原装P3TERX大佬
+
 
 on:
   repository_dispatch:
@@ -49,6 +50,36 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
+
+            #加入磁盘优化
+
+    - name: "Optimize Disk Space"
+      uses: "hugoalh/disk-space-optimizer-ghaction@v0.8.1"
+      with:
+            operate_sudo: "True"
+            general_include: ".+"
+            general_exclude: |-
+              ^GCC$
+              ^G\+\+$
+              Clang
+              LLVM
+            docker_include: ".+"
+            docker_prune: "True"
+            docker_clean: "True"
+            apt_prune: "True"
+            apt_clean: "True"
+            homebrew_prune: "True"
+            homebrew_clean: "True"
+            npm_prune: "True"
+            npm_clean: "True"
+            os_swap: "True"
+
+
+
+
+
+
+
 
     - name: Clone source code
       working-directory: /workdir
@@ -125,23 +156,39 @@ jobs:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
+    
+    
+    
     - name: Generate release tag
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
         echo "release_tag=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
-        [ ${UPLOAD_GOFILE} = true && ${{ steps.gofile.outputs.url }} ] && echo "ðŸ”— [GoFile](${{ steps.gofile.outputs.url }})" >> release.txt
+        [ ${UPLOAD_GOFILE} = true && ${{ steps.gofile.outputs.url }} ] && echo "🔗 [GoFile](${{ steps.gofile.outputs.url }})" >> release.txt
         echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: Release
-      uses: softprops/action-gh-release@v1
+    - name: Upload firmware to release
+      uses: softprops/action-gh-release@master
+      if: steps.tag.outputs.status == 'success' && !cancelled()
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-          prerelease: true
-          tag_name: ${{ env.TAG }}
-          target_commitish: ${{ github.sha }}
-          name: ${{ env.NAME }}
-          body_path: Body.md
-          files: |
-            bin/targets/qualcommax/ipq50xx/sha256sums
-            bin/targets/qualcommax/ipq50xx/*.*
+        tag_name: ${{ steps.tag.outputs.release_tag }}
+        body_path: release.txt
+        files: ${{ env.FIRMWARE }}/*
+
+    - name: Delete workflow runs
+      uses: Mattraks/delete-workflow-runs@main
+      with:
+        retain_days: 0
+        keep_minimum_runs: 2
+
+    - name: Remove old Releases
+      uses: dev-drprasad/delete-older-releases@master
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      with:
+        keep_latest: 3
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
