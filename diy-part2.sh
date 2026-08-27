@@ -28,7 +28,7 @@ cp -r "$GITHUB_WORKSPACE/custom-packages/kmod-amneziawg/"* package/kernel/kmod-a
 mkdir -p package/network/services/amneziawg-tools
 cp -r "$GITHUB_WORKSPACE/custom-packages/amneziawg-tools/"* package/network/services/amneziawg-tools/
 
-# 确保 AmneziaWG 依赖的 crypto 内核模块在 ipq50xx 上被编译为模块
+# 确保 AmneziaWG 依赖的 crypto / tunnel 内核模块在 ipq50xx 上被编译为模块
 cat >> target/linux/qualcommax/ipq50xx/config-default <<'EOF'
 CONFIG_CRYPTO_LIB_CHACHA=m
 CONFIG_CRYPTO_CHACHA20_NEON=m
@@ -36,5 +36,7 @@ CONFIG_CRYPTO_LIB_POLY1305=m
 CONFIG_CRYPTO_POLY1305_NEON=m
 CONFIG_CRYPTO_LIB_CHACHA20POLY1305=m
 CONFIG_CRYPTO_LIB_CURVE25519=m
+CONFIG_CRYPTO_KPP=m
+CONFIG_NET_UDP_TUNNEL=m
 EOF
 
