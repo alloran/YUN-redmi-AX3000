@@ -22,3 +22,9 @@ sed -i "s/OpenWrt /ababwbq build $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" pack
 # 修改 argon 为默认主题,可根据你喜欢的修改成其他的（不选择那些会自动改变为默认主题的主题才有效果）
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
 
+# 添加自定义 AmneziaWG 软件包
+mkdir -p package/kernel/kmod-amneziawg
+cp -r "$GITHUB_WORKSPACE/custom-packages/kmod-amneziawg/"* package/kernel/kmod-amneziawg/
+mkdir -p package/network/services/amneziawg-tools
+cp -r "$GITHUB_WORKSPACE/custom-packages/amneziawg-tools/"* package/network/services/amneziawg-tools/
+
