@@ -29,7 +29,9 @@ mkdir -p package/network/services/amneziawg-tools
 cp -r "$GITHUB_WORKSPACE/custom-packages/amneziawg-tools/"* package/network/services/amneziawg-tools/
 
 # 确保 AmneziaWG 依赖的 crypto / tunnel 内核模块在 ipq50xx 上被编译为模块
-cat >> target/linux/qualcommax/ipq50xx/config-default <<'EOF'
+# 使用 OpenWrt 的 env/kernel-config 机制覆盖内核配置（优先级最高）
+mkdir -p env
+cat > env/kernel-config <<'EOF'
 CONFIG_CRYPTO_LIB_CHACHA=m
 CONFIG_CRYPTO_CHACHA20_NEON=m
 CONFIG_CRYPTO_LIB_POLY1305=m
@@ -40,9 +42,6 @@ CONFIG_CRYPTO_KPP=m
 CONFIG_NET_UDP_TUNNEL=m
 EOF
 
-# 额外确保 CONFIG_NET_UDP_TUNNEL 生效：在 generic config 中直接替换 # is not set
-# 因为 qualcommax/ipq50xx 层覆盖在之前的构建中没有生效
-sed -i 's/^# CONFIG_NET_UDP_TUNNEL is not set/CONFIG_NET_UDP_TUNNEL=m/' target/linux/generic/config-6.6
-# 如果 qualcommax config 中没有该选项也补上
-grep -q '^CONFIG_NET_UDP_TUNNEL=' target/linux/qualcommax/config-6.6 || echo 'CONFIG_NET_UDP_TUNNEL=m' >> target/linux/qualcommax/config-6.6
+echo "[diy-part2] env/kernel-config created:"
+cat env/kernel-config
 
