@@ -45,3 +45,8 @@ EOF
 echo "[diy-part2] env/kernel-config created:"
 cat env/kernel-config
 
+# 兜底：在内核配置生成后强制追加 CONFIG_NET_UDP_TUNNEL=m，避免 kconfig.pl/olddefconfig 把它丢掉
+sed -i "/\$(SCRIPT_DIR)\/kconfig.pl 'm+' '+' \$(LINUX_DIR)\/\.config.target \/dev\/null \$(LINUX_DIR)\/\.config.override > \$(LINUX_DIR)\/\.config.set/a\\
+\\	echo 'CONFIG_NET_UDP_TUNNEL=m' >> \$(LINUX_DIR)/.config.set\\
+\\	echo '[diy-part2] Forced CONFIG_NET_UDP_TUNNEL=m into .config.set'" include/kernel-defaults.mk
+
